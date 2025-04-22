@@ -1,0 +1,245 @@
+<?php
+error_reporting(0);
+include('includes/config.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Blood Bank Donor Management System | Home Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!--// Meta tag Keywords -->
+    <!-- Custom-Files -->
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <!-- Bootstrap-Core-CSS -->
+    <link href="css/style.css" media="all" rel="stylesheet" type="text/css">
+    <!-- Style-CSS -->
+    <link href="css/fontawesome-all.css" rel="stylesheet"/>
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //Custom-Files -->
+    <!-- Web-Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet"/>
+    <!-- //Web-Fonts -->
+</head>
+<body class="bg-light text-dark">
+    <?php include('includes/header.php');?>
+    
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="slider">
+            <div class="callbacks_container">
+                <ul class="rslides callbacks callbacks1" id="slider4">
+                    <li>
+                        <div class="banner-top1">
+                            <div class="banner-info_agile_w3ls">
+                                <div class="container">
+                                    <h1 class="display-4 font-weight-bold text-white mb-4">
+                                        Blood bank services that you
+                                        <span class="bg-danger px-3">can trust</span>
+                                    </h1>
+                                    <p class="lead text-white mb-4">Join us in saving lives through blood donation</p>
+                                    <a href="sign-up.php" class="btn btn-danger btn-lg px-5 py-3">Become a Donor</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="banner-top2">
+                            <div class="banner-info_agile_w3ls">
+                                <div class="container">
+                                    <h1 class="display-4 font-weight-bold text-white mb-4">
+                                        One Blood Donation Saves
+                                        <span class="bg-danger px-3">Three Lives</span>
+                                    </h1>
+                                    <p class="lead text-white mb-4">Your donation can make a difference</p>
+                                    <a href="sign-up.php" class="btn btn-danger btn-lg px-5 py-3">Donate Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features py-5 bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-5">
+                            <i class="fas fa-heartbeat text-danger mb-4" style="font-size: 2.5rem;"></i>
+                            <h3 class="h4 mb-3">Save Lives</h3>
+                            <p class="text-muted">Your blood donation can save up to three lives in emergency situations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-5">
+                            <i class="fas fa-hospital text-danger mb-4" style="font-size: 2.5rem;"></i>
+                            <h3 class="h4 mb-3">Professional Care</h3>
+                            <p class="text-muted">Our medical professionals ensure safe and comfortable donation process.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-5">
+                            <i class="fas fa-clock text-danger mb-4" style="font-size: 2.5rem;"></i>
+                            <h3 class="h4 mb-3">24/7 Support</h3>
+                            <p class="text-muted">Emergency blood support available round the clock when you need it most.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donors Section -->
+    <section class="donors py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4 text-dark mb-3">Our Blood Donors</h2>
+                <p class="text-danger h5 font-weight-normal">Heroes Saving Lives</p>
+            </div>
+            
+            <div class="row">
+                <?php 
+                $status=1;
+                $sql = "SELECT * from tblblooddonars where status=:status order by rand() limit 6";
+                $query = $dbh -> prepare($sql);
+                $query->bindParam(':status',$status,PDO::PARAM_STR);
+                $query->execute();
+                $results=$query->fetchAll(PDO::FETCH_OBJ);
+                
+                if($query->rowCount() > 0) {
+                    foreach($results as $result) { ?>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card border-0 shadow-sm h-100">
+                                <div class="position-relative">
+                                    <img src="images/blood-donor.jpg" class="card-img-top" alt="Donor">
+                                    <div class="bg-danger text-white py-2 px-3 position-absolute" style="bottom: 0; left: 0;">
+                                        <h5 class="mb-0"><?php echo htmlentities($result->FullName);?></h5>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <p class="mb-1"><strong>Gender:</strong> <?php echo htmlentities($result->Gender);?></p>
+                                        <p class="mb-0"><strong>Blood Group:</strong> <?php echo htmlentities($result->BloodGroup);?></p>
+                                    </div>
+                                    <a href="contact-blood.php?cid=<?php echo $result->id;?>" class="btn btn-danger btn-block">
+                                        Request Blood
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php }
+                } ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blood Groups Section -->
+    <section class="blood-groups py-5 bg-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4 text-dark mb-3">Blood Groups</h2>
+                <p class="text-muted">Learn about different blood types and compatibility</p>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-3 d-flex align-items-center">
+                                    <i class="fas fa-check text-danger mr-3"></i>
+                                    <span>A positive or A negative</span>
+                                </li>
+                                <li class="mb-3 d-flex align-items-center">
+                                    <i class="fas fa-check text-danger mr-3"></i>
+                                    <span>B positive or B negative</span>
+                                </li>
+                                <li class="mb-3 d-flex align-items-center">
+                                    <i class="fas fa-check text-danger mr-3"></i>
+                                    <span>O positive or O negative</span>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    <i class="fas fa-check text-danger mr-3"></i>
+                                    <span>AB positive or AB negative</span>
+                                </li>
+                            </ul>
+                            <p class="mb-0">A healthy diet helps ensure a successful blood donation, and also makes you feel better!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/blood-donor (1).jpg" class="img-fluid rounded shadow" alt="Blood Groups">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <?php include('includes/footer.php');?>
+
+    <!-- Scripts -->
+    <script src="js/jquery-2.2.3.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/responsiveslides.min.js"></script>
+    <script src="js/fixed-nav.js"></script>
+    <script src="js/SmoothScroll.min.js"></script>
+    <script>
+        // Slider initialization
+        $(function () {
+            $("#slider4").responsiveSlides({
+                auto: true,
+                pager: true,
+                nav: true,
+                speed: 1000,
+                namespace: "callbacks"
+            });
+        });
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.dark-mode-toggle i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            const icon = document.querySelector('.dark-mode-toggle i');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    </script>
+</body>
+</html>
